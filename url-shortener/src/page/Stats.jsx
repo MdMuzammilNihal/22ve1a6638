@@ -1,6 +1,6 @@
 import React from 'react';
-import { getStatistics } from '../services/mockApi';
-import UrlCard from '../components/UrlCard';
+import { getStatistics } from '../api/mockApi';
+import UrlCard from '../component/UrlCard';
 
 export default function Stats() {
   const data = getStatistics();

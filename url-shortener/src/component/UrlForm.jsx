@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { shortenUrls } from '../services/mockApi';
+import { shortenUrls } from '../api/mockApi';
 import Log from 'C:/Users/mdnih/22ve1a6638/logging-middleware/logger';
 import './UrlForm.css';
 
