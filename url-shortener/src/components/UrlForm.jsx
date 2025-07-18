@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { shortenUrls } from '../services/mockApi';
+import Log from 'C:/Users/mdnih/22ve1a6638/logging-middleware/logger';
 import './UrlForm.css';
 
 const UrlForm = () => {
@@ -15,17 +16,30 @@ const UrlForm = () => {
   const addUrl = () => {
     if (urls.length < 5) {
       setUrls([...urls, { longUrl: '', validity: '', shortcode: '' }]);
+      Log("frontend", "info", "utils", "Added a new URL input field");
+    } else {
+      Log("frontend", "warn", "utils", "User attempted to add more than 5 URLs");
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (urls.some(url => !url.longUrl)) {
       alert('Please fill in all required original URLs.');
+      await Log("frontend", "warn", "utils", "Submission blocked due to empty original URL");
       return;
     }
 
-    const output = shortenUrls(urls);
-    setResults(output);
+    try {
+      await Log("frontend", "info", "api", "Calling mock API to shorten URLs");
+
+      const output = shortenUrls(urls);
+      setResults(output);
+
+      await Log("frontend", "info", "api", `Shortened ${output.length} URLs successfully`);
+    } catch (error) {
+      console.error("Shortening failed:", error);
+      await Log("frontend", "error", "api", "Mock API failed to shorten URLs");
+    }
   };
 
   return (
